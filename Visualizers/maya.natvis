@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010"> 
+  <Type Name="Autodesk::Maya::OpenMaya20190000::MString" Priority="MediumLow">
+    <Intrinsic Name="hasWstring" Expression="api_data->wstringValue.size() != 0" />
+    <Intrinsic Name="hasString" Expression="api_data->stringValue.size() != 0" />
+    <DisplayString Condition="hasWstring()">{api_data->wstringValue}</DisplayString>
+    <DisplayString Condition="hasString()">{api_data->stringValue}</DisplayString>
+    <StringView Condition="hasWstring()">api_data->wstringValue</StringView>
+    <StringView Condition="hasString()">api_data->stringValue</StringView>
+    <Expand>
+      <Item Name="[wsize]">*(int*)((char*)api_data + 16)</Item>
+      <Item Name="[wcapacity]">*(int*)((char*)api_data + 24)</Item>
+      <Item Name="[csize]">*(int*)((char*)api_data + 48)</Item>
+      <Item Name="[ccapacity]">*(int*)((char*)api_data + 56)</Item>
+    </Expand> 
+  </Type>
+
+  <Type Name="Autodesk::Maya::OpenMaya20190000::MStringArray" Priority="MediumLow">
+    <DisplayString>{{ size={*(int*)((char*)arr + 8)} }}</DisplayString>
+    <Expand>
+      <Item Name="[size]">*(int*)((char*)arr + 8)</Item>
+      <Item Name="[capacity]">*(int*)((char*)arr + 12)</Item>
+      <ArrayItems>
+        <Size>*(int*)((char*)arr + 8)</Size>
+        <ValuePointer>(Autodesk::Maya::OpenMaya20190000::MString*)*((char**)arr + 3)</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+</AutoVisualizer>
